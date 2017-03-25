@@ -7,7 +7,8 @@ google.charts.setOnLoadCallback(function() {
     var TwitterGrapher = function() {
         this.topics = {
             "AHCA": /(obamacare)|(repealandreplace)|(healthcare)|(ahca)/,
-            "Fake News": /(fake news)/
+            "Fake News": /(fake news)/,
+            "Fox News": /(foxnews)|(fox news)|(fox)/
         };
     };
 
@@ -71,7 +72,7 @@ google.charts.setOnLoadCallback(function() {
     };
 
     TwitterGrapher.prototype.getTweets = function(callback) {
-        var chunk = new TweetChunk(2, callback);
+        var chunk = new TweetChunk(10, callback);
 
         chunk.get();
     };
@@ -171,6 +172,8 @@ google.charts.setOnLoadCallback(function() {
             return;
         }
 
+        this.createButton();
+
         for(var topicName in this.sorted) {
             this.createButton(topicName);
         }
@@ -180,10 +183,18 @@ google.charts.setOnLoadCallback(function() {
         var self = this;
         var parent = document.getElementById("actions-container");
         var button = document.createElement("button");
-        button.innerHTML = "Show " + topicName;
-        button.onclick = function() {
-            self.buildGraph(topicName);
-        };
+        button.innerHTML = topicName ? "Show " + topicName : "Show All";
+
+        if(topicName) {
+            button.onclick = function() {
+                self.buildGraph(topicName);
+            };
+        } else {
+            button.onclick = function() {
+                self.buildGraph();
+            };
+        }
+        
 
         parent.appendChild(button);
     };
@@ -205,7 +216,7 @@ google.charts.setOnLoadCallback(function() {
         return output;
     };
 
-    TwitterGrapher.prototype.allTweetsToGraphData = function() {
+    TwitterGrapher.prototype.allTweetsToGraphData = function(doCombine) {
         var output = [];
 
         // build headers
@@ -213,8 +224,12 @@ google.charts.setOnLoadCallback(function() {
         var totalIndexes = 0;
 
         for(var index in this.sorted) {
-            headers.push(index + " Likes");
-            headers.push(index + " Retweets");
+            if(!doCombine) {
+                headers.push(index + " Likes");
+                headers.push(index + " Retweets");
+            } else {
+                headers.push(index + " Combined");
+            }
 
             totalIndexes += 1;
         }
@@ -232,16 +247,28 @@ google.charts.setOnLoadCallback(function() {
                 var row = [new Date(tweet.created_at)];
 
                 for(var y = 0; y < counter; y++) {
-                    row.push(null);
-                    row.push(null);
+                    if(doCombine) {
+                        row.push(null);
+                    } else {
+                        row.push(null);
+                        row.push(null);
+                    }
                 }
 
-                row.push(tweet.favorite_count);
-                row.push(tweet.retweet_count);
+                if(doCombine) {
+                    row.push(tweet.favorite_count + tweet.retweet_count);
+                } else {
+                    row.push(tweet.favorite_count);
+                    row.push(tweet.retweet_count);
+                }
 
                 for(var y = counter + 1; y < totalIndexes; y++) {
-                    row.push(null);
-                    row.push(null);
+                    if(doCombine) {
+                        row.push(null);
+                    } else {
+                        row.push(null);
+                        row.push(null);
+                    }
                 }
 
                 output.push(row);
@@ -257,7 +284,7 @@ google.charts.setOnLoadCallback(function() {
         var dataArray = null;
 
         if(!topicName) {
-            dataArray = this.allTweetsToGraphData();
+            dataArray = this.allTweetsToGraphData(true);
         } else {
             dataArray = this.tweetsToData(this.sorted[topicName]);
         }
@@ -271,7 +298,7 @@ google.charts.setOnLoadCallback(function() {
             },
             chartArea: {
                 width: '100%',
-                height: '80%'
+                height: '75%'
             }
         };
 

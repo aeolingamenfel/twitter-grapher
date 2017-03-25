@@ -11,12 +11,17 @@ $block_header-color: #4CAF50;
     overflow: hidden;
 
     .block-header {
-        padding: 0.5em 1em;
+        padding: 1em 1em;
         margin: 0;
 
         .subtitle {
             font-weight: normal;
         }
+    }
+
+    .block-content {
+        padding: 20px;
+        box-sizing: border-box;
     }
 }
 
