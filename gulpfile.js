@@ -8,7 +8,7 @@ const rename = require("gulp-rename");
 gulp.task("default", ["build-js"], function() {});
 
 gulp.task("build-js", function() {
-    return gulp.src(["javascript/*", "javascript/**/*.js"])
+    return gulp.src(["javascript/*", "javascript/**/*.js", "!javascript/_setup-codebird.example.js"])
         .pipe(sourcemaps.init())
         .pipe(uglify())
         .pipe(sourcemaps.write())
@@ -16,5 +16,5 @@ gulp.task("build-js", function() {
 });
 
 gulp.task("watch", function() {
-    gulp.watch(["javascript/*.js", "javascript/**/*.js"], ["build-js"]);
+    gulp.watch(["javascript/*.js", "javascript/**/*.js", "!javascript/_setup-codebird.example.js"], ["build-js"]);
 });
