@@ -2,7 +2,7 @@ $block_theme-color: #2196F3;
 $block_header-color: #4CAF50;
 
 .block {
-    max-width: 900px;
+    max-width: 1151px;
     width: 100%;
     margin: 20px auto;
     background: #fff;
@@ -67,4 +67,9 @@ button.sign-in {
     border: none;
     border-radius: 8px;
     color: #fff;
+}
+
+#chart_div {
+    height: 600px;
+    width: 100%;
 }

@@ -71,7 +71,7 @@ google.charts.setOnLoadCallback(function() {
     };
 
     TwitterGrapher.prototype.getTweets = function(callback) {
-        var chunk = new TweetChunk(10, callback);
+        var chunk = new TweetChunk(2, callback);
 
         chunk.get();
     };
@@ -205,14 +205,74 @@ google.charts.setOnLoadCallback(function() {
         return output;
     };
 
+    TwitterGrapher.prototype.allTweetsToGraphData = function() {
+        var output = [];
+
+        // build headers
+        var headers = ["Date"];
+        var totalIndexes = 0;
+
+        for(var index in this.sorted) {
+            headers.push(index + " Likes");
+            headers.push(index + " Retweets");
+
+            totalIndexes += 1;
+        }
+
+        output.push(headers);
+
+        // build data
+        var counter = 0;
+
+        for(var index in this.sorted) {
+            var tweetList = this.sorted[index];
+
+            for(var x = 0; x < tweetList.length; x++) {
+                var tweet = tweetList[x];
+                var row = [new Date(tweet.created_at)];
+
+                for(var y = 0; y < counter; y++) {
+                    row.push(null);
+                    row.push(null);
+                }
+
+                row.push(tweet.favorite_count);
+                row.push(tweet.retweet_count);
+
+                for(var y = counter + 1; y < totalIndexes; y++) {
+                    row.push(null);
+                    row.push(null);
+                }
+
+                output.push(row);
+            }
+
+            counter += 1;
+        }
+
+        return output;
+    };
+
     TwitterGrapher.prototype.buildGraph = function(topicName) {
-        var dataArray = this.tweetsToData(this.sorted[topicName]);
+        var dataArray = null;
+
+        if(!topicName) {
+            dataArray = this.allTweetsToGraphData();
+        } else {
+            dataArray = this.tweetsToData(this.sorted[topicName]);
+        }
 
         var data = google.visualization.arrayToDataTable(dataArray);
 
         var options = {
-            title: topicName + ' Tweets Popularity',
-            legend: { position: 'bottom' }
+            title: topicName ? topicName : 'General' + ' Tweets Popularity',
+            legend: {
+                position: 'bottom' 
+            },
+            chartArea: {
+                width: '100%',
+                height: '80%'
+            }
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
