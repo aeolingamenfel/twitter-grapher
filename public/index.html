@@ -51,11 +51,27 @@
             <section class="block">
                 <h1 class="block-header">
                     Step 2:
-                    <span class="subtitle">Get Tweets and Graph</span>
+                    <span class="subtitle">Sort and Graph Tweets</span>
                 </h1>
+                <div class="custom-topics">
+                    <div>
+                        <label for="topic-name">Name</label>
+                        <input type="text" id="topic-name" />
+                    </div>
+                    <div>
+                        <label for="topic-pattern">Pattern</label>
+                        <input type="text" id="topic-pattern"
+                            placeholder="Standard Regex Pattern (excluding the //)" />
+                    </div>
+                    <div class="action">
+                        <button onclick="TwitterGrapher.addTopicFromForm()">
+                            Add Topic Filter
+                        </button>
+                    </div>
+                </div>
                 <div class="get-wrapper button-wrapper">
                     <button onclick="TwitterGrapher.sortTweets()">
-                        Get Tweets
+                        Sort Tweets
                     </button>
                 </div>
                 <div id="actions-container" class="button-wrapper"></div>

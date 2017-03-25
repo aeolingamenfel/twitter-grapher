@@ -8,8 +8,29 @@ google.charts.setOnLoadCallback(function() {
         this.topics = {
             "AHCA": /(obamacare)|(repealandreplace)|(healthcare)|(ahca)/,
             "Fake News": /(fake news)/,
-            "Fox News": /(foxnews)|(fox news)|(fox)/
+            "Fox News": new RegExp("(foxnews)|(fox news)|(fox)")
         };
+    };
+
+    TwitterGrapher.prototype.addTopic = function(name, regexString) {
+        this.topics[name] = new RegExp(regexString);
+    }
+
+    TwitterGrapher.prototype.addTopicFromForm = function() {
+        var topicNameInput = document.getElementById("topic-name");
+        var topicPatternInput = document.getElementById("topic-pattern");
+
+        var topicName = topicNameInput.value;
+        var topicPattern = topicPatternInput.value;
+
+        if(topicName === "" || topicPattern === "") {
+            return;
+        }
+
+        this.addTopic(topicName, topicPattern);
+
+        topicNameInput.value = "";
+        topicPatternInput.value = "";
     };
 
     TwitterGrapher.prototype.signIn = function() {
@@ -71,10 +92,14 @@ google.charts.setOnLoadCallback(function() {
         );
     };
 
-    TwitterGrapher.prototype.getTweets = function(callback) {
-        var chunk = new TweetChunk(10, callback);
+    TwitterGrapher.prototype.getTweets = function(callback, fromCache) {
+        if(fromCache && this.tweets && this.tweets.length > 0) {
+            callback(this.tweets);
+        } else {
+            var chunk = new TweetChunk(10, callback);
 
-        chunk.get();
+            chunk.get();
+        }
     };
 
     TwitterGrapher.prototype.sortTweets = function() {
@@ -83,6 +108,7 @@ google.charts.setOnLoadCallback(function() {
         this.getTweets(function(tweets) {
             var x, tweet, topicName, topicKeywords, k, keyword, sorted = {};
 
+            self.tweets = tweets;
             console.log("Total Tweets: " + tweets.length);
 
             for(x = 0; x < tweets.length; x++) {
@@ -123,7 +149,7 @@ google.charts.setOnLoadCallback(function() {
 
             self.sorted = sorted;
             self.createButtons();
-        });
+        }, true);
     };
 
     TwitterGrapher.prototype.createButtons = function() {
