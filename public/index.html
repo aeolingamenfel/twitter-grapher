@@ -2,7 +2,7 @@
 
 <html lang="en">
     <head>
-        <title>Twitter Grapher</title>
+        <title>Trump Twitter Grapher Alpha</title>
         <meta charset="utf-8">
 
         <script type="text/javascript" src="js/codebird.js"></script>
@@ -14,7 +14,7 @@
     </head>
     <body>
         <header>
-            Twitter Grapher
+            Trump Twitter Grapher Alpha
         </header>
         <main>
             <section class="block">
@@ -53,6 +53,18 @@
                     Step 2:
                     <span class="subtitle">Sort and Graph Tweets</span>
                 </h1>
+                <div class="block-content">
+                    <p>
+                        Below you can sort and graph tweets in specific "topics"
+                        that are determined by
+                        <a href="https://en.wikipedia.org/wiki/Regular_expression">
+                            Regular Expressions</a>. There are a few
+                        preprogrammed ones (see below for more info), and you 
+                        can add your own as well. Make sure to click "sort
+                        tweets" after you add a new topic filter.
+                    </p>
+                </div>
+                <div class="custom-topics-list" id="custom-topics-list"></div>
                 <div class="custom-topics">
                     <div>
                         <label for="topic-name">Name</label>
