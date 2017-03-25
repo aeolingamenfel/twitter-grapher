@@ -59,20 +59,50 @@ google.charts.setOnLoadCallback(function() {
     };
 
     TwitterGrapher.prototype.getTweets = function(callback) {
+        var chunk = new TweetChunk(10, callback);
+
+        chunk.get();
+    };
+
+    var TweetChunk = function(limit, callback) {
+        this.tweets = [];
+        this.chunks = 0;
+        this.limit = limit;
+        this.callback = callback;
+    };
+
+    TweetChunk.prototype.get = function(startingPoint) {
+        var self = this, data = {
+            "screen_name": "realDonaldTrump",
+            "count": 200
+        };
+
+        if(startingPoint) {
+            data["max_id"] = startingPoint;
+        }
+
         cb.__call(
             "statuses_userTimeline",
-            {
-                "screen_name": "realDonaldTrump",
-                "count": 200
-            },
+            data,
             function (reply, rate, err) {
                 if(err) {
                     console.log(err);
                 } else {
-                    callback(reply);
+                    self.tweetsRecieved(reply);
                 }
             }
         );
+    };
+
+    TweetChunk.prototype.tweetsRecieved = function(tweets) {
+        this.tweets.push.apply(this.tweets, tweets);
+        this.chunks += 1;
+
+        if(this.chunks >= this.limit) {
+            this.callback(this.tweets);
+        } else {
+            this.get(tweets[tweets.length - 1].id);
+        }
     };
 
     TwitterGrapher.prototype.sortTweets = function() {
@@ -80,6 +110,8 @@ google.charts.setOnLoadCallback(function() {
 
         this.getTweets(function(tweets) {
             var x, tweet, topicName, topicKeywords, k, keyword, sorted = {};
+
+            console.log("Total Tweets: " + tweets.length);
 
             for(x = 0; x < tweets.length; x++) {
                 tweet = tweets[x];
