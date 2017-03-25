@@ -1,0 +1,70 @@
+$block_theme-color: #2196F3;
+$block_header-color: #4CAF50;
+
+.block {
+    max-width: 900px;
+    width: 100%;
+    margin: 20px auto;
+    background: #fff;
+    box-sizing: border-box;
+    border-radius: 8px;
+    overflow: hidden;
+
+    .block-header {
+        padding: 0.5em 1em;
+        margin: 0;
+
+        .subtitle {
+            font-weight: normal;
+        }
+    }
+}
+
+.info-block {
+    text-align: left;
+    width: 100%;
+    max-width: 700px;
+    margin: 10px auto;
+}
+
+.sign-in-wrapper, .pin-wrapper {
+    text-align: center;
+    padding: 15px 0;
+    box-sizing: border-box;
+}
+
+.button-wrapper {
+    text-align: center;
+}
+
+.pin-wrapper {
+    display: none;
+
+    .pin-input, .pin-button {
+        font-size: 20px;
+    }
+
+    .pin-input {
+        border-radius: 5px;
+        padding: 0.25em 1em;
+        border: 1px solid #ddd;
+    }
+
+    .pin-button {
+        background: $block_theme-color;
+        border: none;
+        padding: 0.25em 1em;
+        color: #fff;
+        border-radius: 5px;
+    }
+}
+
+button.sign-in {
+    font-size: 24px;
+    display: inline-block;
+    background: $block_theme-color;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+}

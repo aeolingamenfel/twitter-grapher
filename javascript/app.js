@@ -12,6 +12,8 @@ google.charts.setOnLoadCallback(function() {
     };
 
     TwitterGrapher.prototype.signIn = function() {
+        var self = this;
+
         cb.__call(
             "oauth_requestToken",
             {oauth_callback: "oob"},
@@ -22,6 +24,8 @@ google.charts.setOnLoadCallback(function() {
                 if (reply) {
                     // stores it
                     cb.setToken(reply.oauth_token, reply.oauth_token_secret);
+
+                    self.showPinInput();
 
                     // gets the authorize screen URL
                     cb.__call(
@@ -34,6 +38,14 @@ google.charts.setOnLoadCallback(function() {
                 }
             }
         );
+    };
+
+    TwitterGrapher.prototype.showPinInput = function() {
+        var signInWrapper = document.querySelector(".sign-in-wrapper");
+        var pinWrapper = document.querySelector(".pin-wrapper");
+
+        signInWrapper.style.display = "none";
+        pinWrapper.style.display = "block";
     };
 
     TwitterGrapher.prototype.verifyPin = function() {
@@ -135,11 +147,11 @@ google.charts.setOnLoadCallback(function() {
                 }
 
                 if(bestMatchValue < 1) {
-                    if(!sorted["none"]) {
-                        sorted["none"] = [];
+                    if(!sorted["No Topic"]) {
+                        sorted["No Topic"] = [];
                     }
 
-                    sorted["none"].push(tweet);
+                    sorted["No Topic"].push(tweet);
                 } else {
                     if(!sorted[bestMatchName]) {
                         sorted[bestMatchName] = [];
@@ -181,9 +193,10 @@ google.charts.setOnLoadCallback(function() {
 
         for(var x = 0; x < tweetList.length; x++) {
             var tweet = tweetList[x];
+            var date = new Date(tweet.created_at);
 
             output.push([
-                "#" + x,
+                date,
                 tweet.favorite_count,
                 tweet.retweet_count
             ]);

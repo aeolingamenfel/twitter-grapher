@@ -9,24 +9,59 @@
         <script type="text/javascript" src="js/_setup-codebird.js"></script>
         <script type="text/javascript"
             src="https://www.gstatic.com/charts/loader.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="css/app.css" />
     </head>
     <body>
-        <h1>This is Twitter Grapher!</h1>
-        <div>
-            <button onclick="TwitterGrapher.signIn()">
-                Sign in to Twitter
-            </button>
-        </div>
-        <div>
-            <input type="text" id="pin" placeholder="PIN number" />
-            <button onclick="TwitterGrapher.verifyPin()">Verify</button>
-        </div>
-        <div>
-            <button onclick="TwitterGrapher.sortTweets()">Get Tweets</button>
-        </div>
-        <div id="actions-container"></div>
-        <div id="chart_div"></div>
-
+        <header>
+            Twitter Grapher
+        </header>
+        <main>
+            <section class="block">
+                <h1 class="block-header">
+                    Step 1:
+                    <span class="subtitle">Sign In to Twitter</span>
+                </h1>
+                <div class="sign-in-wrapper">
+                    <button onclick="TwitterGrapher.signIn()" class="sign-in">
+                        Sign in to Twitter
+                    </button>
+                    
+                    <p class="info-block">
+                        <strong>
+                            Why does this app need me to sign in to Twitter?
+                        </strong>
+                    </p>
+                    <p class="info-block">
+                        The Twitter API has <em>extremely</em> strict limits on 
+                        what (free) apps can do/access, and how quickly. As a 
+                        way of distributing this process, I'm asking you to sign 
+                        in so the limit for how much you can refresh this app 
+                        is based on your accout, not one app account. Don't 
+                        worry, it can't post anything on your behalf.
+                    </p>
+                </div>
+                <div class="pin-wrapper">
+                    <input type="text" id="pin" placeholder="PIN number"
+                        class="pin-input" />
+                    <button onclick="TwitterGrapher.verifyPin()"
+                        class="pin-button">Verify</button>
+                </div>
+            </section>
+            <section class="block">
+                <h1 class="block-header">
+                    Step 2:
+                    <span class="subtitle">Get Tweets and Graph</span>
+                </h1>
+                <div class="get-wrapper button-wrapper">
+                    <button onclick="TwitterGrapher.sortTweets()">
+                        Get Tweets
+                    </button>
+                </div>
+                <div id="actions-container" class="button-wrapper"></div>
+                <div id="chart_div"></div>
+            </section>
+        </main>
         <script type="text/javascript" src="js/app.js"></script>
     </body>
 </html>
