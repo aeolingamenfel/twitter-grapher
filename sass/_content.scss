@@ -75,6 +75,22 @@ button.sign-in {
     color: #fff;
 }
 
+.custom-topics-list {
+    padding: 0 20px;
+
+    .topic {
+        display: flex;
+
+        .name, .pattern {
+            display: block;
+        }
+
+        .name {
+            flex-basis: 100px;
+        }
+    }
+}
+
 .custom-topics {
     text-align: center;
     max-width: 400px;

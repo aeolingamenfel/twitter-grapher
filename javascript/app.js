@@ -6,10 +6,38 @@ google.charts.setOnLoadCallback(function() {
 (function() {
     var TwitterGrapher = function() {
         this.topics = {
-            "AHCA": /(obamacare)|(repealandreplace)|(healthcare)|(ahca)/,
+            "AHCA": /(obamacare)|(repealandreplace)|(healthcare)|(health)|(ahca)/,
             "Fake News": /(fake news)/,
-            "Fox News": new RegExp("(foxnews)|(fox news)|(fox)")
+            "Fox News": /(foxnews)|(fox news)|(fox)/
         };
+
+        this.buildTopicsList();
+    };
+
+    TwitterGrapher.prototype.buildTopicsList = function() {
+        for(var name in this.topics) {
+            this.createTopicView(name, this.topics[name]);
+        }
+    };
+
+    TwitterGrapher.prototype.createTopicView = function(name, regex) {
+        var parent = document.getElementById("custom-topics-list");
+        var wrapper = document.createElement("div");
+        wrapper.className = "topic";
+
+        var nameElm = document.createElement("span");
+        var patternElm = document.createElement("code");
+
+        nameElm.className = "name";
+        patternElm.className = "pattern";
+
+        nameElm.innerHTML = name;
+        patternElm.innerHTML = regex + "";
+
+        wrapper.appendChild(nameElm);
+        wrapper.appendChild(patternElm);
+        
+        parent.appendChild(wrapper);
     };
 
     TwitterGrapher.prototype.addTopic = function(name, regexString) {
