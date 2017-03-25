@@ -77,47 +77,6 @@ google.charts.setOnLoadCallback(function() {
         chunk.get();
     };
 
-    var TweetChunk = function(limit, callback) {
-        this.tweets = [];
-        this.chunks = 0;
-        this.limit = limit;
-        this.callback = callback;
-    };
-
-    TweetChunk.prototype.get = function(startingPoint) {
-        var self = this, data = {
-            "screen_name": "realDonaldTrump",
-            "count": 200
-        };
-
-        if(startingPoint) {
-            data["max_id"] = startingPoint;
-        }
-
-        cb.__call(
-            "statuses_userTimeline",
-            data,
-            function (reply, rate, err) {
-                if(err) {
-                    console.log(err);
-                } else {
-                    self.tweetsRecieved(reply);
-                }
-            }
-        );
-    };
-
-    TweetChunk.prototype.tweetsRecieved = function(tweets) {
-        this.tweets.push.apply(this.tweets, tweets);
-        this.chunks += 1;
-
-        if(this.chunks >= this.limit) {
-            this.callback(this.tweets);
-        } else {
-            this.get(tweets[tweets.length - 1].id);
-        }
-    };
-
     TwitterGrapher.prototype.sortTweets = function() {
         var self = this, topics = this.topics;
 
@@ -171,6 +130,9 @@ google.charts.setOnLoadCallback(function() {
         if(!this.sorted) {
             return;
         }
+
+        var parent = document.getElementById("actions-container");
+        parent.innerHTML = "";
 
         this.createButton();
 
@@ -297,7 +259,7 @@ google.charts.setOnLoadCallback(function() {
                 position: 'bottom' 
             },
             chartArea: {
-                width: '100%',
+                width: '90%',
                 height: '75%'
             }
         };
@@ -305,6 +267,78 @@ google.charts.setOnLoadCallback(function() {
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
         chart.draw(data, options);
+    };
+
+    var TweetChunk = function(limit, callback) {
+        this.tweets = [];
+        this.chunks = 0;
+        this.limit = limit;
+        this.callback = callback;
+    };
+
+    TweetChunk.prototype.get = function(startingPoint) {
+        var self = this, data = {
+            "screen_name": "realDonaldTrump",
+            "count": 200
+        };
+
+        if(startingPoint) {
+            data["max_id"] = startingPoint;
+        }
+
+        this.setLoadingBar();
+        this.showLoadingBar();
+
+        cb.__call(
+            "statuses_userTimeline",
+            data,
+            function (reply, rate, err) {
+                if(err) {
+                    console.log(err);
+                } else {
+                    self.tweetsRecieved(reply);
+                }
+            }
+        );
+    };
+
+    TweetChunk.prototype.tweetsRecieved = function(tweets) {
+        this.tweets.push.apply(this.tweets, tweets);
+        this.chunks += 1;
+
+        this.setLoadingBar();
+
+        if(this.chunks >= this.limit) {
+            this.hideLoadingBar();
+            this.callback(this.tweets);
+        } else {
+            this.get(tweets[tweets.length - 1].id);
+        }
+    };
+
+    TweetChunk.prototype.setLoadingBar = function() {
+        var loadingBar = document.querySelector(".loading-bar");
+        var percentage = (this.chunks / this.limit) * 100;
+
+        requestAnimationFrame(function() {
+            loadingBar.style.width = percentage + "%";
+        });
+    };
+
+    TweetChunk.prototype.showLoadingBar = function() {
+        var loadingBar = document.querySelector(".loading-bar-wrapper");
+
+        requestAnimationFrame(function() {
+            loadingBar.className = "loading-bar-wrapper open";
+        });
+    };
+
+    TweetChunk.prototype.hideLoadingBar = function() {
+        var loadingBar = document.querySelector(".loading-bar-wrapper");
+
+        requestAnimationFrame(function() {
+            loadingBar.className = "loading-bar-wrapper";
+        });
     };
 
     window.TwitterGrapher = new TwitterGrapher();
