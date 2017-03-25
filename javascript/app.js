@@ -4,7 +4,12 @@ google.charts.setOnLoadCallback(function() {
 });
 
 (function() {
-    var TwitterGrapher = function() {};
+    var TwitterGrapher = function() {
+        this.topics = {
+            "AHCA": /(obamacare)|(repealandreplace)|(healthcare)|(ahca)/,
+            "Fake News": /(fake news)/
+        };
+    };
 
     TwitterGrapher.prototype.signIn = function() {
         cb.__call(
@@ -70,11 +75,8 @@ google.charts.setOnLoadCallback(function() {
         );
     };
 
-    TwitterGrapher.prototype.graphTweets = function() {
-        var self = this, topics = {
-            "AHCA": /(obamacare)|(repealandreplace)|(healthcare)|(ahca)/,
-            "Fake News": /(fake news)/
-        };
+    TwitterGrapher.prototype.sortTweets = function() {
+        var self = this, topics = this.topics;
 
         this.getTweets(function(tweets) {
             var x, tweet, topicName, topicKeywords, k, keyword, sorted = {};
@@ -116,7 +118,30 @@ google.charts.setOnLoadCallback(function() {
             }
 
             self.sorted = sorted;
+            self.createButtons();
         });
+    };
+
+    TwitterGrapher.prototype.createButtons = function() {
+        if(!this.sorted) {
+            return;
+        }
+
+        for(var topicName in this.sorted) {
+            this.createButton(topicName);
+        }
+    };
+
+    TwitterGrapher.prototype.createButton = function(topicName) {
+        var self = this;
+        var parent = document.getElementById("actions-container");
+        var button = document.createElement("button");
+        button.innerHTML = "Show " + topicName;
+        button.onclick = function() {
+            self.buildGraph(topicName);
+        };
+
+        parent.appendChild(button);
     };
 
     TwitterGrapher.prototype.tweetsToData = function(tweetList) {
@@ -141,7 +166,7 @@ google.charts.setOnLoadCallback(function() {
         var data = google.visualization.arrayToDataTable(dataArray);
 
         var options = {
-            title: 'ACHA Popularity',
+            title: topicName + ' Tweets Popularity',
             legend: { position: 'bottom' }
         };
 
