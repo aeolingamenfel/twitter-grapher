@@ -1,5 +1,7 @@
-$block_theme-color: #2196F3;
-$block_header-color: #4CAF50;
+@import "variables";
+
+$block_theme-color: $color_mtrl-blue;
+$block_header-color: $color_mtrl-green;
 
 .block {
     max-width: 1151px;
@@ -73,12 +75,32 @@ $block_header-color: #4CAF50;
 
 button.sign-in {
     font-size: 24px;
+}
+
+.btn {
     display: inline-block;
+    font-size: 14px;
     background: $block_theme-color;
     padding: 0.5em 1em;
     border: none;
     border-radius: 8px;
+    box-sizing: border-box;
     color: #fff;
+    box-shadow: 0 4px darken($block_theme-color, 10%);
+    transition: all 200ms ease-out;
+
+    &:hover {
+        background: lighten($block_theme-color, 5%);
+    }
+
+    &:active {
+        transform: translateY(4px);
+        box-shadow: 0 0 darken($block_theme-color, 10%);
+    }
+}
+
+.add-topic-btn {
+    margin: 10px 0 0;
 }
 
 .custom-topics-list {

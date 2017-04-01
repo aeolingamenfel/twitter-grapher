@@ -1,7 +1,10 @@
+@import "variables";
+
 header {
     text-align: center;
     font-size: 32px;
     font-weight: bold;
     padding: 10px 0;
     background: #fff;
+    font-family: $font_serif;
 }

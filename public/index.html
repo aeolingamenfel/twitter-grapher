@@ -23,7 +23,7 @@
                     <span class="subtitle">Sign In to Twitter</span>
                 </h1>
                 <div class="sign-in-wrapper">
-                    <button onclick="TwitterGrapher.signIn()" class="sign-in">
+                    <button onclick="TwitterGrapher.signIn()" class="sign-in btn">
                         Sign in to Twitter
                     </button>
                     
@@ -82,14 +82,15 @@
                                 placeholder="Standard Regex Pattern (excluding the //)" />
                         </div>
                         <div class="action">
-                            <button onclick="TwitterGrapher.addTopicFromForm()">
+                            <button onclick="TwitterGrapher.addTopicFromForm()"
+                                class="btn add-topic-btn">
                                 Add Topic Filter
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="get-wrapper button-wrapper">
-                    <button onclick="TwitterGrapher.sortTweets()">
+                    <button onclick="TwitterGrapher.sortTweets()" class="btn">
                         Sort Tweets
                     </button>
                 </div>
@@ -131,5 +132,6 @@
             </section>
         </main>
         <script type="text/javascript" src="js/app.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Lora|Roboto" rel="stylesheet">
     </body>
 </html>

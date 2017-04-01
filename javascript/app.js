@@ -5,7 +5,7 @@ google.charts.setOnLoadCallback(function() {});
     var TwitterGrapher = function() {
         this.topics = {
             "AHCA": /(obamacare)|(repealandreplace)|(healthcare)|(health)|(ahca)/,
-            "Fake News": /(fake news)/,
+            "Fake News": /(fake news)|(#fakenews)|(fakenews)/,
             "Fox News": /(foxnews)|(fox news)|(fox)/
         };
 
