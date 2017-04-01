@@ -85,6 +85,7 @@ button.sign-in {
     border: none;
     border-radius: 8px;
     box-sizing: border-box;
+    margin-bottom: 5px;
     color: #fff;
     box-shadow: 0 4px darken($block_theme-color, 10%);
     transition: all 200ms ease-out;
@@ -100,7 +101,12 @@ button.sign-in {
 }
 
 .add-topic-btn {
-    margin: 10px 0 0;
+    margin-top: 10px;
+}
+
+.topic-btn {
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .custom-topics-list {

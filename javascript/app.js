@@ -207,6 +207,7 @@ google.charts.setOnLoadCallback(function() {});
         var self = this;
         var parent = document.getElementById("actions-container");
         var button = document.createElement("button");
+        button.className = "btn topic-btn";
         button.innerHTML = topicName ? "Show " + topicName : "Show All";
 
         if(topicName) {
