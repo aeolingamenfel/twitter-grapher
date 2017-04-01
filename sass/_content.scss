@@ -39,6 +39,12 @@ $block_header-color: #4CAF50;
     box-sizing: border-box;
 }
 
+.pin-verify-wrapper {
+    display: none;
+    visibility: none;
+    text-align: center;
+}
+
 .button-wrapper {
     text-align: center;
 }
@@ -76,7 +82,7 @@ button.sign-in {
 }
 
 .custom-topics-list {
-    padding: 0 20px;
+    padding: 10px 20px 0 20px;
 
     .topic {
         display: flex;
@@ -92,11 +98,11 @@ button.sign-in {
 }
 
 .custom-topics {
-    text-align: center;
+    text-align: left;
     max-width: 400px;
     width: 100%;
     margin: 0 auto;
-    padding: 10px 0 30px;
+    padding: 0 0 30px;
     box-sizing: border-box;
 
     label {
@@ -105,7 +111,7 @@ button.sign-in {
     }
 
     input[type='text'] {
-        width: 100%;
+        width: 90%;
         padding: 5px 10px;
         border-radius: 3px;
         border: 1px solid #ccc;
@@ -158,5 +164,13 @@ button.sign-in {
             background: #4CAF50;
             transition: width 400ms ease-out;
         }
+    }
+}
+
+.topics-wrapper {
+    display: flex;
+
+    .custom-topics-list, .custom-topics {
+        flex-basis: 50%;
     }
 }

@@ -47,6 +47,11 @@
                     <button onclick="TwitterGrapher.verifyPin()"
                         class="pin-button">Verify</button>
                 </div>
+                <div class="pin-verify-wrapper">
+                    <p>
+                        Pin verified, thank you!
+                    </p>
+                </div>
             </section>
             <section class="block">
                 <h1 class="block-header">
@@ -64,21 +69,23 @@
                         tweets" after you add a new topic filter.
                     </p>
                 </div>
-                <div class="custom-topics-list" id="custom-topics-list"></div>
-                <div class="custom-topics">
-                    <div>
-                        <label for="topic-name">Name</label>
-                        <input type="text" id="topic-name" />
-                    </div>
-                    <div>
-                        <label for="topic-pattern">Pattern</label>
-                        <input type="text" id="topic-pattern" class="pattern"
-                            placeholder="Standard Regex Pattern (excluding the //)" />
-                    </div>
-                    <div class="action">
-                        <button onclick="TwitterGrapher.addTopicFromForm()">
-                            Add Topic Filter
-                        </button>
+                <div class="topics-wrapper">
+                    <div class="custom-topics-list" id="custom-topics-list"></div>
+                    <div class="custom-topics">
+                        <div>
+                            <label for="topic-name">Name</label>
+                            <input type="text" id="topic-name" />
+                        </div>
+                        <div>
+                            <label for="topic-pattern">Pattern</label>
+                            <input type="text" id="topic-pattern" class="pattern"
+                                placeholder="Standard Regex Pattern (excluding the //)" />
+                        </div>
+                        <div class="action">
+                            <button onclick="TwitterGrapher.addTopicFromForm()">
+                                Add Topic Filter
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="get-wrapper button-wrapper">

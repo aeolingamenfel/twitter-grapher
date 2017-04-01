@@ -1,7 +1,5 @@
 google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(function() {
-    console.log("Charts ready!");
-});
+google.charts.setOnLoadCallback(function() {});
 
 (function() {
     var TwitterGrapher = function() {
@@ -98,7 +96,16 @@ google.charts.setOnLoadCallback(function() {
         pinWrapper.style.display = "block";
     };
 
+    TwitterGrapher.prototype.showPinVerify = function() {
+        var pinWrapper = document.querySelector(".pin-wrapper");
+        var pinVerifyWrapper = document.querySelector(".pin-verify-wrapper");
+
+        pinWrapper.style.display = "none";
+        pinVerifyWrapper.style.display = "block";
+    };
+
     TwitterGrapher.prototype.verifyPin = function() {
+        var self = this;
         var pinInput = document.getElementById("pin");
         var pinNumber = pinInput.value;
 
@@ -112,6 +119,7 @@ google.charts.setOnLoadCallback(function() {
                 if (reply) {
                     // store the authenticated token, which may be different from the request token (!)
                     cb.setToken(reply.oauth_token, reply.oauth_token_secret);
+                    self.showPinVerify();
                 }
 
                 // if you need to persist the login after page reload,
